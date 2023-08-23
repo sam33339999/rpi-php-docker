@@ -1,0 +1,33 @@
+version: "3"
+
+volumes:
+  mysql:
+    driver: local
+
+services:
+  php82:
+    build:
+      context: Docker/php82
+    ports:
+      - 8081:8080
+    volumes:
+      - ${APP_DIR}/:/data
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+  mysql:
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - mysql:/var/lib/mysql
+  # php74:
+  #   build:
+  #     context: Docker/php74
+  #   ports:
+  #     - 8082:8080
+  #   volumes:
+  #     - ../:/var/www/html
